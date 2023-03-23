@@ -16,6 +16,7 @@
         </header>
         <section class="loginCont">
 	        <form class="loginForm layui-form" action="${pageContext.request.contextPath }/login.do"  name="actionForm" id="actionForm"  method="post" >
+                <input type="hidden" name="method" value="login">
                 <%--<div class="layui-form-item">--%>
                     <%--<label class="layui-form-label">输入框</label>--%>
                     <%--<div class="layui-input-block">--%>
