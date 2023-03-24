@@ -48,7 +48,6 @@ public class BaseDao {
 			Class.forName(driver);
 			connection = DriverManager.getConnection(url, user, password);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -106,7 +105,6 @@ public class BaseDao {
 				rs.close();
 				rs = null;//GC回收
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				flag = false;
 			}
@@ -116,7 +114,6 @@ public class BaseDao {
 				pstm.close();
 				pstm = null;//GC回收
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				flag = false;
 			}
@@ -126,7 +123,6 @@ public class BaseDao {
 				connection.close();
 				connection = null;//GC回收
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				flag = false;
 			}

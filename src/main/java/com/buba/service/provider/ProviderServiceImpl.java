@@ -1,9 +1,10 @@
-package com.buba.service.bill;
+package com.buba.service.provider;
 
 import com.buba.dao.BaseDao;
-import com.buba.dao.bill.BillDao;
-import com.buba.dao.bill.BillDaoImpl;
+import com.buba.dao.provider.ProviderDao;
+import com.buba.dao.provider.ProviderDaoImpl;
 import com.buba.pojo.Bill;
+import com.buba.pojo.Provider;
 
 import java.sql.Connection;
 import java.util.List;
@@ -11,33 +12,29 @@ import java.util.List;
 /**
  * @author chenrui
  * @version 1.0
- * @date 2023/3/23 15:01
+ * @date 2023/3/24 09:00
  */
-public class BillServiceImpl implements BillService{
+public class ProviderServiceImpl implements ProviderService{
+    private ProviderDao providerDao;
 
-    private BillDao billDao;
-
-    public BillServiceImpl() {
-        billDao = new BillDaoImpl();
+    public ProviderServiceImpl() {
+        providerDao = new ProviderDaoImpl();
     }
 
     /**
-     * 查询订单列表
-     * @param productName
-     * @param providerId
-     * @param isPayment
+     * 查询供应商下拉列表
      * @return
      */
     @Override
-    public List<Bill> listBIll(String productName, String providerId, String isPayment) {
+    public List<Provider> listProviderForSelect() {
         Connection connection = null;
-        List<Bill> billList = null;
+        List<Provider> providerList = null;
 
         try {
             // 创建connection
             connection = BaseDao.getConnection();
             // 调用dao层的查询方法，并传入connection
-            billList = billDao.listBill(connection, productName, providerId, isPayment);
+            providerList = providerDao.listProviderForSelect(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
@@ -45,6 +42,6 @@ public class BillServiceImpl implements BillService{
             BaseDao.closeResource(connection, null, null);
         }
         // 将查询结果返回给servlet
-        return billList;
+        return providerList;
     }
 }

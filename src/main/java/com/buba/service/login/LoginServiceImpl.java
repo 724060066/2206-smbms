@@ -10,7 +10,6 @@ import java.sql.Connection;
 /**
  * @author chenrui
  * @version 1.0
- * @description: TODO
  * @date 2023/3/23 13:59
  */
 public class LoginServiceImpl implements LoginService{
@@ -28,14 +27,12 @@ public class LoginServiceImpl implements LoginService{
      */
     @Override
     public User login(String userCode, String userPassword) {
-        // TODO Auto-generated method stub
         Connection connection = null;
         User user = null;
         try{
             connection = BaseDao.getConnection();
             user = loginDao.getUserByUserCode(connection, userCode);
         }catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }finally{
             BaseDao.closeResource(connection, null, null);

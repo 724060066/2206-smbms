@@ -12,32 +12,50 @@ import java.util.List;
 /**
  * @author chenrui
  * @version 1.0
- * @description: TODO
  * @date 2023/3/23 15:07
  */
 public class BillDaoImpl implements BillDao{
     /**
      * 查询订单信息列表
      * @param connection
+     * @param productName
+     * @param providerId
+     * @param isPayment
      * @return
      * @throws Exception
      */
     @Override
-    public List<Bill> listBill(Connection connection) throws Exception {
-        // TODO Auto-generated method stub
+    public List<Bill> listBill(Connection connection, String productName, String providerId,
+                               String isPayment) throws Exception {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         List<Bill> billList = new ArrayList<>();
         if(connection != null){
             // 声明sql
-            String sql = "select * from smbms_bill ";
+            StringBuffer sb = new StringBuffer();
+            sb.append("select ");
+            sb.append("sb.*, ");
+            sb.append("sp.proName ");
+            sb.append("from smbms_bill sb, ");
+            sb.append("smbms_provider sp ");
+            sb.append("where sb.providerId = sp.id ");
             List<Object> list = new ArrayList<>();
+            if (null != productName && !"".equals(productName)) {
+                sb.append("and sb.productName like ? ");
+                list.add("%" + productName + "%");
+            }
+            if (null != providerId && !"0".equals(providerId)) {
+                sb.append("and sb.providerId = ? ");
+                list.add(providerId);
+            }
+            if (null != isPayment && !"0".equals(isPayment)) {
+                sb.append("and sb.isPayment = ? ");
+                list.add(isPayment);
+            }
 
-            Object[] params = list.toArray();
-
-            System.out.println("sql --------- > " + sql);
+            System.out.println("sql --------- > " + sb);
             // 执行sql并返回查询结果®
-            rs = BaseDao.execute(connection, pstm, rs, sql, params);
+            rs = BaseDao.execute(connection, pstm, rs, sb.toString(), list.toArray());
             // 循环结果集，并封装到students实体类
             while(rs.next()){
                 // 将结果集里的数据封装到实体类对应的属性里
@@ -56,6 +74,7 @@ public class BillDaoImpl implements BillDao{
                 bill.setModifyBy(rs.getInt("modifyBy"));
                 bill.setModifyDate(rs.getDate("modifyDate"));
                 bill.setProviderId(rs.getInt("providerId"));
+                bill.setProviderName(rs.getString("proName"));
 
                 // 将查询结果放入list
                 billList.add(bill);

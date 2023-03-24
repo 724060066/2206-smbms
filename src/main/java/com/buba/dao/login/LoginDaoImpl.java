@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 /**
  * @author chenrui
  * @version 1.0
- * @description: TODO
  * @date 2023/3/23 15:21
  */
 public class LoginDaoImpl implements LoginDao{
@@ -23,7 +22,6 @@ public class LoginDaoImpl implements LoginDao{
      */
     @Override
     public User getUserByUserCode(Connection connection, String userCode) throws Exception {
-        // TODO Auto-generated method stub
         User user = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
