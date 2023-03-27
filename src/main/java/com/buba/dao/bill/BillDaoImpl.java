@@ -85,4 +85,54 @@ public class BillDaoImpl implements BillDao{
         // 将查询结果（list）返回给service方法
         return billList;
     }
+
+    /**
+     * 添加订单
+     * @param connection
+     * @param bill
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int saveBill(Connection connection, Bill bill) throws Exception {
+        PreparedStatement pstm = null;
+        int num = 0;
+        if(connection != null){
+            // 声明sql
+            StringBuilder sql = new StringBuilder();
+            sql.append("insert into smbms_bill( ");
+            sql.append("billCode, ");
+            sql.append("productName, ");
+            sql.append("productDesc, ");
+            sql.append("productUnit, ");
+            sql.append("productCount, ");
+            sql.append("totalPrice, ");
+            sql.append("isPayment, ");
+            sql.append("createdBy, ");
+            sql.append("creationDate, ");
+            sql.append("providerId) ");
+            sql.append("values(?,?,?,?,?,?,?,?,now(),?)");
+
+            // 传入sql的数据,需要与sql中的？数量、顺序一致
+            List<Object> list = new ArrayList<>();
+            list.add(bill.getBillCode());
+            list.add(bill.getProductName());
+            list.add(bill.getProductDesc());
+            list.add(bill.getProductUnit());
+            list.add(bill.getProductCount());
+            list.add(bill.getTotalPrice());
+            list.add(bill.getIsPayment());
+            list.add(bill.getCreatedBy());
+            list.add(bill.getProviderId());
+
+            Object[] params = list.toArray();
+
+            System.out.println("sql --------- > " + sql);
+            // 执行sql并返回查询结果
+            num = BaseDao.execute(connection, pstm, sql.toString(), params);
+            // 释放资源（注意不要释放connection）
+            BaseDao.closeResource(null, pstm, null);
+        }
+        return num;
+    }
 }

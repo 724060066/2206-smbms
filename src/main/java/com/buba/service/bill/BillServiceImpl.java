@@ -47,4 +47,26 @@ public class BillServiceImpl implements BillService{
         // 将查询结果返回给servlet
         return billList;
     }
+
+    /**
+     * 添加订单
+     * @param bill
+     */
+    @Override
+    public void saveBill(Bill bill) {
+        Connection connection = null;
+        int num = 0;
+        try {
+            // 创建connection
+            connection = BaseDao.getConnection();
+            // 调用dao层的添加方法
+            billDao.saveBill(connection, bill);
+            // 根据dao层的添加方法返回的num判断添加是否成功
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            // 关闭connection
+            BaseDao.closeResource(connection, null, null);
+        }
+    }
 }

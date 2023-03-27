@@ -14,4 +14,10 @@ public interface BillService {
      * @return
      */
     List<Bill> listBIll(String productName, String providerId, String isPayment);
+
+    /**
+     * 添加订单
+     * @param bill
+     */
+    void saveBill(Bill bill);
 }

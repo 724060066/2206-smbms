@@ -17,4 +17,13 @@ public interface BillDao {
      * @throws Exception
      */
     List<Bill> listBill(Connection connection, String productName, String providerId, String isPayment)throws Exception;
+
+    /**
+     * 添加订单
+     * @param connection
+     * @param bill
+     * @return
+     * @throws Exception
+     */
+    int saveBill(Connection connection, Bill bill) throws Exception;
 }

@@ -3,6 +3,7 @@ package com.buba.servlet.login;
 import com.buba.pojo.User;
 import com.buba.service.login.LoginService;
 import com.buba.service.login.LoginServiceImpl;
+import com.buba.tool.Constants;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,7 +56,7 @@ public class LoginServlet extends HttpServlet {
             if (user.getUserPassword().equals(userPassword)) {
                 // 登录成功
                 //放入session
-                req.getSession().setAttribute("userSession", user);
+                req.getSession().setAttribute(Constants.USER_SESSION, user);
                 //页面跳转（frame.jsp）
                 resp.sendRedirect("jsp/frame.jsp");
             } else {
