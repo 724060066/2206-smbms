@@ -50,8 +50,75 @@ public class BillServlet extends HttpServlet {
                     // 添加订单
                     this.saveBill(req, resp);
                     break;
+                case "view":
+                    // 查看订单
+                    this.getBillById(req, resp, "billview.jsp");
+                    break;
+                case "modify":
+                    // 修改页面初始化
+                    this.getBillById(req, resp, "billmodify.jsp");
+                    break;
+                case "modifysave":
+                    // 修改订单信息
+                    this.updateBillById(req, resp);
+                    break;
             }
         }
+    }
+
+    /**
+     * 根据id修改订单信息
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void updateBillById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String billId = req.getParameter("id");
+        String billCode = req.getParameter("billCode");
+        String productName = req.getParameter("productName");
+        String productDesc = req.getParameter("productDesc");
+        String productUnit = req.getParameter("productUnit");
+        String productCount = req.getParameter("productCount");
+        String totalPrice = req.getParameter("totalPrice");
+        String providerId = req.getParameter("providerId");
+        String isPayment = req.getParameter("isPayment");
+
+        Bill bill = new Bill();
+        bill.setId(Integer.parseInt(billId));
+        bill.setBillCode(billCode);
+        bill.setProductName(productName);
+        bill.setProductDesc(productDesc);
+        bill.setProductUnit(productUnit);
+        bill.setProductCount(new BigDecimal(productCount).setScale(2,BigDecimal.ROUND_DOWN));
+        bill.setIsPayment(Integer.parseInt(isPayment));
+        bill.setTotalPrice(new BigDecimal(totalPrice).setScale(2,BigDecimal.ROUND_DOWN));
+        bill.setProviderId(Integer.parseInt(providerId));
+        bill.setModifyBy(((User)req.getSession().getAttribute(Constants.USER_SESSION)).getId());
+
+        BillService billService = new BillServiceImpl();
+        billService.updateBillById(bill);
+
+        resp.sendRedirect(req.getContextPath()+"/jsp/bill.do?method=query");
+    }
+
+    /**
+     * 根据id查询订单信息
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void getBillById(HttpServletRequest req, HttpServletResponse resp, String url) throws ServletException, IOException {
+        String billId = req.getParameter("billid");
+
+        BillService billService = new BillServiceImpl();
+        Bill bill = billService.getBillById(billId);
+
+        req.setAttribute("bill", bill);
+
+        req.getRequestDispatcher(url).forward(req, resp);
     }
 
     /**

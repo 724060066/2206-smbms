@@ -69,4 +69,50 @@ public class BillServiceImpl implements BillService{
             BaseDao.closeResource(connection, null, null);
         }
     }
+
+    /**
+     * 根据id查询订单信息
+     * @param billId
+     * @return
+     */
+    @Override
+    public Bill getBillById(String billId) {
+        Connection connection = null;
+        Bill bill = null;
+        try {
+            // 创建connection
+            connection = BaseDao.getConnection();
+            // 调用dao层的查询方法，并传入connection
+            bill = billDao.getBillById(connection, billId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            // 关闭connection
+            BaseDao.closeResource(connection, null, null);
+        }
+        // 将查询结果返回给servlet
+        return bill;
+    }
+
+    /**
+     * 根据id修改订单信息
+     * @param bill
+     */
+    @Override
+    public void updateBillById(Bill bill) {
+        Connection connection = null;
+        int num = 0;
+        try {
+            // 创建connection
+            connection = BaseDao.getConnection();
+            // 调用dao层的添加方法
+            billDao.updateBillById(connection, bill);
+            // 根据dao层的添加方法返回的num判断添加是否成功
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            // 关闭connection
+            BaseDao.closeResource(connection, null, null);
+        }
+    }
 }
