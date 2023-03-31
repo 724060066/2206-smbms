@@ -15,6 +15,36 @@ import java.util.List;
  * @date 2023/3/23 15:07
  */
 public class BillDaoImpl implements BillDao{
+
+    /**
+     * 根据id删除订单
+     * @param connection
+     * @param billId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int deleteBillById(Connection connection, String billId) throws Exception {
+        PreparedStatement pstm = null;
+        int num = 0;
+        if(connection != null){
+            // 声明sql
+            StringBuilder sql = new StringBuilder();
+            sql.append("delete from smbms_bill where id = ? ");
+
+            // 传入sql的数据,需要与sql中的？数量、顺序一致
+            List<Object> list = new ArrayList<>();
+            list.add(billId);
+
+            System.out.println("sql --------- > " + sql);
+            // 执行sql并返回查询结果
+            num = BaseDao.execute(connection, pstm, sql.toString(), list.toArray());
+            // 释放资源（注意不要释放connection）
+            BaseDao.closeResource(null, pstm, null);
+        }
+        return num;
+    }
+
     /**
      * 查询订单信息列表
      * @param connection

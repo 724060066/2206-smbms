@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单管理servlet111
@@ -62,8 +64,35 @@ public class BillServlet extends HttpServlet {
                     // 修改订单信息
                     this.updateBillById(req, resp);
                     break;
+                case "delbill":
+                    // 根据id删除订单
+                    this.deleteBillById(req, resp);
+                    break;
             }
         }
+    }
+
+    /**
+     * 根据id删除订单
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void deleteBillById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String billId = req.getParameter("billid");
+
+        BillService billService = new BillServiceImpl();
+        String delResult = billService.deleteBillById(billId);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("delResult", delResult);
+
+        //把resultMap转换成json对象输出
+        resp.setContentType("application/json;charset=UTF-8");
+        PrintWriter outPrintWriter = resp.getWriter();
+        outPrintWriter.write(JSONArray.toJSONString(resultMap));
+        outPrintWriter.flush();
+        outPrintWriter.close();
     }
 
     /**
@@ -190,7 +219,7 @@ public class BillServlet extends HttpServlet {
         String isPayment = req.getParameter("queryIsPayment");
 
         BillService billService = new BillServiceImpl();
-        List<Bill> billList = billService.listBIll(productName, providerId, isPayment);
+        List<Bill> billList = billService.listBill(productName, providerId, isPayment);
 
         // 取得供应商下拉列表
         ProviderService providerService = new ProviderServiceImpl();

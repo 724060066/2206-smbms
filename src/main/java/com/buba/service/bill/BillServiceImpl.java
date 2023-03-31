@@ -22,6 +22,40 @@ public class BillServiceImpl implements BillService{
     }
 
     /**
+     * 根据id删除订单
+     * @param billId
+     * @return true:删除成功；false：删除失败；notexist：订单不存在
+     */
+    @Override
+    public String deleteBillById(String billId) {
+        Connection connection = null;
+        String delResult = "";
+        int num = 0;
+        try {
+            // 创建connection
+            connection = BaseDao.getConnection();
+            // 调用dao层的添加方法
+            num = billDao.deleteBillById(connection, billId);
+            if (num == 1) {
+                // 删除成功
+                delResult = "true";
+            } else {
+                // 订单不存在
+                delResult = "notexist";
+            }
+            // 根据dao层的添加方法返回的num判断添加是否成功
+        } catch (Exception e) {
+            // 删除失败
+            delResult = "false";
+            e.printStackTrace();
+        }finally{
+            // 关闭connection
+            BaseDao.closeResource(connection, null, null);
+        }
+        return delResult;
+    }
+
+    /**
      * 查询订单列表
      * @param productName
      * @param providerId
@@ -29,7 +63,7 @@ public class BillServiceImpl implements BillService{
      * @return
      */
     @Override
-    public List<Bill> listBIll(String productName, String providerId, String isPayment) {
+    public List<Bill> listBill(String productName, String providerId, String isPayment) {
         Connection connection = null;
         List<Bill> billList = null;
 

@@ -4,7 +4,17 @@ import com.buba.pojo.Bill;
 
 import java.util.List;
 
+/**
+ *
+ */
 public interface BillService {
+
+    /**
+     * 根据id删除订单
+     * @param billId
+     * @return
+     */
+    String deleteBillById(String billId);
 
     /**
      * 查询订单列表
@@ -13,7 +23,7 @@ public interface BillService {
      * @param isPayment
      * @return
      */
-    List<Bill> listBIll(String productName, String providerId, String isPayment);
+    List<Bill> listBill(String productName, String providerId, String isPayment);
 
     /**
      * 添加订单

@@ -8,6 +8,15 @@ import java.util.List;
 public interface BillDao {
 
     /**
+     * 根据id删除订单
+     * @param connection
+     * @param billId
+     * @return
+     * @throws Exception
+     */
+    int deleteBillById(Connection connection, String billId) throws Exception;
+
+    /**
      * 查询订单信息列表
      * @param connection
      * @param productName
@@ -16,7 +25,7 @@ public interface BillDao {
      * @return
      * @throws Exception
      */
-    List<Bill> listBill(Connection connection, String productName, String providerId, String isPayment)throws Exception;
+    List<Bill> listBill(Connection connection, String productName, String providerId, String isPayment) throws Exception;
 
     /**
      * 添加订单
