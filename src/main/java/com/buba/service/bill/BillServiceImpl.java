@@ -15,6 +15,16 @@ import java.util.List;
  */
 public class BillServiceImpl implements BillService{
 
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private BillDao billDao;
 
     public BillServiceImpl() {

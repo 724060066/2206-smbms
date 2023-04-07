@@ -13,6 +13,7 @@
 
     <!-- 自动扫描包，实现支持注解的IOC -->
     <context:component-scan base-package="com.buba.controller"/>
+    <context:component-scan base-package="com.buba.service"/>
 
     <!-- 支持mvc注解驱动 -->
     <mvc:annotation-driven/>
@@ -23,6 +24,11 @@
     <!-- 引用静态资源文件 -->
     <mvc:default-servlet-handler/>
 
+<!--    生成BillServiceImpl实例-->
+    <bean id="billService" class="com.buba.service.bill.BillServiceImpl">
+        <property name="name" value="aaaa">
+        </property>
+    </bean>
 
     <!-- 视图解析器 -->
     <!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->

@@ -1,9 +1,11 @@
 package com.buba.controller.login;
 
 import com.buba.pojo.User;
+import com.buba.service.bill.BillService;
 import com.buba.service.login.LoginService;
-import com.buba.service.login.LoginServiceImpl;
 import com.buba.tool.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,20 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/login")
 public class LoginController {
 
+    // 通过类型注入
+    @Autowired
+    @Qualifier("loginService")
+    LoginService loginService;
+
+    @Autowired
+    @Qualifier("logService")
+    LoginService logService;
+
+    // 通过名称注入
+    @Autowired
+    @Qualifier("billService")
+    BillService billService;
+
     /**
      * 登录
      * @param model
@@ -30,7 +46,7 @@ public class LoginController {
      */
     @RequestMapping
     public String login(Model model, HttpSession session, String userCode, String userPassword) {
-        LoginService loginService = new LoginServiceImpl();
+
         User user = loginService.login(userCode, userPassword);
 
         String view = "";

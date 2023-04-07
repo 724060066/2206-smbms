@@ -4,6 +4,7 @@ import com.buba.dao.BaseDao;
 import com.buba.dao.login.LoginDao;
 import com.buba.dao.login.LoginDaoImpl;
 import com.buba.pojo.User;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 
@@ -12,6 +13,7 @@ import java.sql.Connection;
  * @version 1.0
  * @date 2023/3/23 13:59
  */
+@Service("loginService")
 public class LoginServiceImpl implements LoginService{
 
     private LoginDao loginDao;
