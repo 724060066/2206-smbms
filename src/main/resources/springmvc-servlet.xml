@@ -13,7 +13,6 @@
 
     <!-- 自动扫描包，实现支持注解的IOC -->
     <context:component-scan base-package="com.buba.controller"/>
-    <context:component-scan base-package="com.buba.service"/>
 
     <!-- 支持mvc注解驱动 -->
     <mvc:annotation-driven/>

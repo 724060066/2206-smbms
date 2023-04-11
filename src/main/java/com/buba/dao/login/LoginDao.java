@@ -13,5 +13,13 @@ public interface LoginDao {
      * @return
      * @throws Exception
      */
-    User getUserByUserCode(Connection connection, String userCode) throws Exception;
+//    User getUserByUserCode(Connection connection, String userCode) throws Exception;
+
+    /**
+     * 根据userCode取得用户信息
+     * @param userCode
+     * @return
+     * @throws Exception
+     */
+    User getUserByUserCode(String userCode);
 }
