@@ -4,6 +4,8 @@ import com.buba.dao.BaseDao;
 import com.buba.dao.bill.BillDao;
 import com.buba.dao.bill.BillDaoImpl;
 import com.buba.pojo.Bill;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.util.List;
@@ -13,23 +15,11 @@ import java.util.List;
  * @version 1.0
  * @date 2023/3/23 15:01
  */
+@Service("billService")
 public class BillServiceImpl implements BillService{
 
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Autowired
     private BillDao billDao;
-
-    public BillServiceImpl() {
-        billDao = new BillDaoImpl();
-    }
 
     /**
      * 根据id删除订单
@@ -74,21 +64,8 @@ public class BillServiceImpl implements BillService{
      */
     @Override
     public List<Bill> listBill(String productName, String providerId, String isPayment) {
-        Connection connection = null;
-        List<Bill> billList = null;
-
-        try {
-            // 创建connection
-            connection = BaseDao.getConnection();
-            // 调用dao层的查询方法，并传入connection
-            billList = billDao.listBill(connection, productName, providerId, isPayment);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            // 关闭connection
-            BaseDao.closeResource(connection, null, null);
-        }
-        // 将查询结果返回给servlet
+        List<Bill> billList = billDao.listBill(productName, providerId, isPayment);
+        // 将查询结果返回给controller
         return billList;
     }
 

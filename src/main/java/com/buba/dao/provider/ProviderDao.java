@@ -9,9 +9,7 @@ public interface ProviderDao {
 
     /**
      *  查询供应商下拉列表
-     * @param connection
      * @return
-     * @throws Exception
      */
-    List<Provider> listProviderForSelect(Connection connection)throws Exception;
+    List<Provider> listProviderForSelect();
 }

@@ -1,12 +1,10 @@
 package com.buba.service.provider;
 
-import com.buba.dao.BaseDao;
 import com.buba.dao.provider.ProviderDao;
-import com.buba.dao.provider.ProviderDaoImpl;
-import com.buba.pojo.Bill;
 import com.buba.pojo.Provider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -14,12 +12,10 @@ import java.util.List;
  * @version 1.0
  * @date 2023/3/24 09:00
  */
+@Service("providerService")
 public class ProviderServiceImpl implements ProviderService{
+    @Autowired
     private ProviderDao providerDao;
-
-    public ProviderServiceImpl() {
-        providerDao = new ProviderDaoImpl();
-    }
 
     /**
      * 查询供应商下拉列表
@@ -27,21 +23,7 @@ public class ProviderServiceImpl implements ProviderService{
      */
     @Override
     public List<Provider> listProviderForSelect() {
-        Connection connection = null;
-        List<Provider> providerList = null;
-
-        try {
-            // 创建connection
-            connection = BaseDao.getConnection();
-            // 调用dao层的查询方法，并传入connection
-            providerList = providerDao.listProviderForSelect(connection);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            // 关闭connection
-            BaseDao.closeResource(connection, null, null);
-        }
         // 将查询结果返回给servlet
-        return providerList;
+        return providerDao.listProviderForSelect();
     }
 }

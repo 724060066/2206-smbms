@@ -14,7 +14,7 @@ import java.util.List;
  * @version 1.0
  * @date 2023/3/23 15:07
  */
-public class BillDaoImpl implements BillDao{
+public class BillDaoImpl{
 
     /**
      * 根据id删除订单
@@ -23,7 +23,6 @@ public class BillDaoImpl implements BillDao{
      * @return
      * @throws Exception
      */
-    @Override
     public int deleteBillById(Connection connection, String billId) throws Exception {
         PreparedStatement pstm = null;
         int num = 0;
@@ -46,84 +45,12 @@ public class BillDaoImpl implements BillDao{
     }
 
     /**
-     * 查询订单信息列表
-     * @param connection
-     * @param productName
-     * @param providerId
-     * @param isPayment
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public List<Bill> listBill(Connection connection, String productName, String providerId,
-                               String isPayment) throws Exception {
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
-        List<Bill> billList = new ArrayList<>();
-        if(connection != null){
-            // 声明sql
-            StringBuffer sb = new StringBuffer();
-            sb.append("select ");
-            sb.append("sb.*, ");
-            sb.append("sp.proName ");
-            sb.append("from smbms_bill sb, ");
-            sb.append("smbms_provider sp ");
-            sb.append("where sb.providerId = sp.id ");
-            List<Object> list = new ArrayList<>();
-            if (null != productName && !"".equals(productName)) {
-                sb.append("and sb.productName like ? ");
-                list.add("%" + productName + "%");
-            }
-            if (null != providerId && !"0".equals(providerId)) {
-                sb.append("and sb.providerId = ? ");
-                list.add(providerId);
-            }
-            if (null != isPayment && !"0".equals(isPayment)) {
-                sb.append("and sb.isPayment = ? ");
-                list.add(isPayment);
-            }
-
-            System.out.println("sql --------- > " + sb);
-            // 执行sql并返回查询结果®
-            rs = BaseDao.execute(connection, pstm, rs, sb.toString(), list.toArray());
-            // 循环结果集，并封装到students实体类
-            while(rs.next()){
-                // 将结果集里的数据封装到实体类对应的属性里
-                Bill bill = new Bill();
-                bill.setId(rs.getInt("id"));
-                bill.setBillCode(rs.getString("billCode"));
-                bill.setProductName(rs.getString("productName"));
-                bill.setProductDesc(rs.getString("productDesc"));
-                bill.setProductUnit(rs.getString("productUnit"));
-                bill.setProductCount(rs.getBigDecimal("productCount"));
-                bill.setTotalPrice(rs.getBigDecimal("totalPrice"));
-                bill.setIsPayment(rs.getInt("isPayment"));
-                bill.setIsPayment(rs.getInt("isPayment"));
-                bill.setCreatedBy(rs.getInt("createdBy"));
-                bill.setCreationDate(rs.getDate("creationDate"));
-                bill.setModifyBy(rs.getInt("modifyBy"));
-                bill.setModifyDate(rs.getDate("modifyDate"));
-                bill.setProviderId(rs.getInt("providerId"));
-                bill.setProviderName(rs.getString("proName"));
-
-                // 将查询结果放入list
-                billList.add(bill);
-            }
-            // 释放资源（注意不要释放connection）
-            BaseDao.closeResource(null, pstm, rs);
-        }
-        // 将查询结果（list）返回给service方法
-        return billList;
-    }
-
-    /**
      * 添加订单
      * @param connection
      * @param bill
      * @return
      * @throws Exception
      */
-    @Override
     public int saveBill(Connection connection, Bill bill) throws Exception {
         PreparedStatement pstm = null;
         int num = 0;
@@ -173,7 +100,6 @@ public class BillDaoImpl implements BillDao{
      * @return
      * @throws Exception
      */
-    @Override
     public Bill getBillById(Connection connection, String billId) throws Exception {
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -226,7 +152,6 @@ public class BillDaoImpl implements BillDao{
      * @return
      * @throws Exception
      */
-    @Override
     public int updateBillById(Connection connection, Bill bill) throws Exception {
         PreparedStatement pstm = null;
         int num = 0;
